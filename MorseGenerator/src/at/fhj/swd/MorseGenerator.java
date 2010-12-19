@@ -1,26 +1,19 @@
 package at.fhj.swd;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.StringTokenizer;
-
-import android.content.res.Resources;
 import android.util.Log;
 
 /**
  * Translates normal Text to the morse-alphabet.
  * Implemented as a SINGLETON
  * @author Matthias Koinegg
- *
  */
-
 public class MorseGenerator {
 
 	private static MorseGenerator instance = null;
@@ -29,9 +22,7 @@ public class MorseGenerator {
 	
 	/**
 	 * Reads the morse-alphabet from a flat file (in /res/raw/..) into an HashMap 
-	 * @param mainAct Needs reference to mainAct for access to the input-file
-	 * 
-	 */
+	 * @param mainAct Needs reference to mainAct for access to the input-file 	 */
 	protected MorseGenerator(MainAct mainAct)
 	{
 		ascii2morse = new HashMap<String,String> ();
@@ -47,8 +38,7 @@ public class MorseGenerator {
 			e1.printStackTrace();
 		}
 		
-		String line = null;
-		
+		String line = null;		
 		try {			
 			while((line = bufRdr.readLine()) != null)
 			{
@@ -67,6 +57,9 @@ public class MorseGenerator {
 		}
 	}
 	
+	/**
+	 * Returns an instance of the MorseGenerator-Singleton
+	 */
 	public static MorseGenerator getInstance(MainAct mainAct) {
 		if (instance == null) {
 			Log.i("MorseGenerator","First access");
@@ -75,26 +68,31 @@ public class MorseGenerator {
 		return instance;
 	}
 	
+	/**
+	 * @param inputText ASCII-Text which should be translated to morsecode
+	 * @return Morsecode as a String 
+	 */
 	public String translate(String inputText)
 	{
 		if ((inputText == null) || (inputText.length()==0))
 		{
 			return "";
 		}
-	
-		inputText = inputText.toUpperCase();
+		inputText = inputText.toUpperCase(); // there are only uppercase characters in morsecode
 		
 		StringBuilder sb = new StringBuilder();
+		//translate every single character to morsecode
 		for (int i=0; i<inputText.length();i++)
 		{
 			Log.i(inputText.substring(i,i+1),ascii2morse.get(inputText.substring(i,i+1)));
 			if (!ascii2morse.containsKey(inputText.substring(i,i+1)))
-			{
+			{	// Write an error to log if inputtext contains unsupported character
 				Log.e("MorseGenerator", "Found no Morsecode for char " +  inputText.substring(i,i+1));
 			}
 			else
 			{
 			sb.append(ascii2morse.get(inputText.substring(i,i+1)));
+			sb.append(" "); // put a space between every character
 			}
 		}		
 		return sb.toString();

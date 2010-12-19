@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +20,6 @@ import at.fhj.swd.R;
 /**
  * Main-Acitivity 
  * @author Matthias Koinegg
- *
  */
 public class MainAct extends Activity implements OnClickListener, OnCheckedChangeListener{
 	// Global variables
@@ -42,26 +43,62 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
     }
 
 	public void onClick(View view) {
+		Log.i("ClickEvent", "Button " + view.toString() + " clicked");
+		
 		// Button "Start output!"
 		if (view == bt_start) {
-			Log.i("ClickEvent", "Button Start output clicked");
-
-			Log.i("path",this.getFilesDir().toString());
 			
-			// Translate Input-String to Morse-Text
-			String morse = MorseGenerator.getInstance(this).translate(et_input_text.getText().toString());			
-			Log.i("Got following Text from Morsegenerator", morse);
-			//TODO
+			// Check if at least one checkbox is selected
+			if (!isCheckboxSelected(allCheckBoxes))
+			{
+				new AlertDialog.Builder(this).setMessage(
+						"Select at least one output-option!")
+						.setNeutralButton("OK", null).show();
+			}
+			else {
+				// Translate Input-String to Morse-Text
+				String morsecode = MorseGenerator.getInstance(this).translate(et_input_text.getText().toString());
+				Log.i("Got following Text from Morsegenerator", morsecode);
+				
+				if (cb_light_flash.isChecked()) { // Light-Flash-Output
+					//TODO
+				}
+				if (cb_ligth_dis.isChecked()) { // Light-Display-Output
+					//TODO
+				}
+				if (cb_sms.isChecked()) { // SMS-Output
+					//TODO
+				}
+				if (cb_sound.isChecked()) { // Sound-Output
+					//TODO
+				}
+				if (cb_vibration.isChecked()) { // Vibration-Output
+					//TODO
+				}
+				if (cb_text_dis.isChecked()) { // Text-Output
+					Intent i = new Intent(this, TextOutputAct.class);
+					i.putExtra("inputtext", et_input_text.getText().toString());
+					i.putExtra("morsecode", morsecode);
+					startActivity(i);
+				}	
+			}
 		}
+		// Button "Settings" clicked
 		if (view == bt_settings) {
-			Log.i("ClickEvent", "Button Settings clicked");
 			//TODO
 		}
 	}
 
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		Log.i("Checkboxes, status changed", buttonView.getText().toString());
-		//TODO
+		// When checkbox "Text (display)" is enabled, disable all other checkboxes  
+		if (buttonView.equals(cb_text_dis) && cb_text_dis.isChecked())		{
+			disableOtherCheckboxes(cb_text_dis);
+		} // When checkbox "Text (display)" is disabled, enable all other checkboxes
+		if (buttonView.equals(cb_text_dis) && !cb_text_dis.isChecked()) 	{
+			enableAllCheckboxes();
+		}
+		
+		//TODO: check for all compatible output-options ???
 	}
 	
 	private void init()
@@ -90,5 +127,55 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
         	// Buttons
         bt_start.setOnClickListener(this);
         bt_settings.setOnClickListener(this);
+	}
+	
+	/**
+	 * @param checkboxes
+	 * @return Returns true if one of the checkboxes is checked (selected)
+	 */
+	private boolean isCheckboxSelected(List <CheckBox> checkboxes)
+	{
+		boolean isSelected = false;
+		Iterator <CheckBox> i = checkboxes.iterator();
+		while (i.hasNext())
+		{
+			if (i.next().isChecked())
+			{
+				isSelected = true;
+			}
+		}
+		return isSelected;	
+	}
+	
+	/**
+	 * Enables all checkboxes 
+	 */
+	private void enableAllCheckboxes()
+	{
+		Iterator <CheckBox> i = allCheckBoxes.iterator();
+		while (i.hasNext())
+		{
+			i.next().setEnabled(true);
+		}
+	}
+	
+	/**
+	 * Disables all checkboxes, but not the one passed as a parameter
+	 * @param clickedCheckbox = Checkbox that should not be disabled 
+	 */
+	
+	private void disableOtherCheckboxes(CheckBox clickedCheckbox)
+	{
+		Iterator <CheckBox> i = allCheckBoxes.iterator();
+		CheckBox current; 
+		while (i.hasNext())
+		{
+			current = i.next();
+			if (!current.equals(clickedCheckbox))
+			{
+				current.setEnabled(false);
+				current.setChecked(false);
+			}
+		}
 	}
 }
