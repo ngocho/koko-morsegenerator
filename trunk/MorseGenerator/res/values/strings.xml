@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MorseGenerator</string>
+    <string name="enter_text">Enter Text:</string>
+    <string name="predef_text">Help!</string>
+    
+    <string name="cb_text_dis">Text (display)</string>
+    <string name="cb_light_dis">Light (display)</string>
+    <string name="cb_light_flash">Light (flash)</string>
+    <string name="cb_sound">Sound</string>
+    <string name="cb_vibration">Vibration</string>
+    <string name="cb_sms">SMS to 112</string>
+
+</resources>
