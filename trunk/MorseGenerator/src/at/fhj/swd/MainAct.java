@@ -71,6 +71,10 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 				}
 				if (cb_sound.isChecked()) { // Sound-Output
 					//TODO
+					Intent i = new Intent(this, SoundOutputAct.class);
+					i.putExtra("inputtext", et_input_text.getText().toString());
+					i.putExtra("morsecode", morsecode);
+					startActivity(i);
 				}
 				if (cb_vibration.isChecked()) { // Vibration-Output
 					//TODO
