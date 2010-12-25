@@ -27,6 +27,7 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 	EditText et_input_text;
 	CheckBox cb_text_dis, cb_ligth_dis, cb_light_flash, cb_sound, cb_vibration, cb_sms;
 	List <CheckBox> allCheckBoxes;
+
 	
 	/** Called when the activity is first created. */
     @Override
@@ -44,6 +45,7 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 
 	public void onClick(View view) {
 		Log.i("ClickEvent", "Button " + view.toString() + " clicked");
+
 		
 		// Button "Start output!"
 		if (view == bt_start) {			
@@ -66,10 +68,10 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 					.setNeutralButton("Schade...", null).show();
 				}
 				if (cb_ligth_dis.isChecked()) { // Light-Display-Output
-					//TODO
-					new AlertDialog.Builder(this).setMessage(
-					"Not implemented yet!")
-					.setNeutralButton("Schade...", null).show();
+					Intent i = new Intent(this, ScreenLightOutputAct.class);
+					i.putExtra("inputtext", et_input_text.getText().toString());
+					i.putExtra("morsecode", morsecode);
+					startActivity(i);
 				}
 				if (cb_sms.isChecked()) { // SMS-Output
 					//TODO
@@ -108,6 +110,7 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 	 * Enables/Disables checkboxes accordingly
 	 */
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		// ################## Text (display) ##################
 		// When checkbox "Text (display)" is enabled, disable all other checkboxes  
 		if (buttonView.equals(cb_text_dis) && cb_text_dis.isChecked())		{
 			disableOtherCheckboxes(cb_text_dis);
@@ -116,6 +119,7 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 			enableAllCheckboxes();
 		}
 		
+		// ################## Sound && Vibration ##################
 		// When checkbox "Sound" or "Vibration" is enabled, leave only Sound and Vibration enabled 
 		if ((buttonView.equals(cb_sound) && cb_sound.isChecked()) ||
 				(buttonView.equals(cb_vibration) && cb_vibration.isChecked()))		{
@@ -126,6 +130,15 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 			enableAllCheckboxes();
 		}
 		if ((buttonView.equals(cb_vibration) && !cb_vibration.isChecked()) && (!cb_sound.isChecked()))		{
+			enableAllCheckboxes();
+		}
+		
+		// ################## Light (display) ##################
+		// When checkbox "Light (display)" is enabled, disable all other checkboxes  
+		if (buttonView.equals(cb_ligth_dis) && cb_ligth_dis.isChecked())		{
+			disableOtherCheckboxes((CheckBox)buttonView); }
+		// When checkbox "Light (display)" is disabled, enable all other checkboxes
+		if (buttonView.equals(cb_ligth_dis) && !cb_ligth_dis.isChecked()) 	{
 			enableAllCheckboxes();
 		}
 		
