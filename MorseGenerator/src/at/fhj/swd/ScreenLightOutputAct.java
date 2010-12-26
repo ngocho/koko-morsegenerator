@@ -13,14 +13,16 @@ public class ScreenLightOutputAct extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	
+    	// set layout as defined in xml-file 
 		setContentView(R.layout.out_light_dis);
 		
-		LinearLayout lin_layout = (LinearLayout) findViewById(R.id.linLayout01);
-		
-		scrLightOut = 
-			new ScreenLightOutputView(this, getIntent().getExtras().getString("morsecode"),
+		/* This view is responsible for blinking according to the morsecode
+		 * Starts the output immediately		 */
+		scrLightOut = new ScreenLightOutputView(this, getIntent().getExtras().getString("morsecode"),
 					getIntent().getExtras().getString("inputtext"));
+
+		// add the view to the layout
+		LinearLayout lin_layout = (LinearLayout) findViewById(R.id.linLayout01);
 		lin_layout.addView(scrLightOut);
 		
         // Provide a button to get back to the main activity

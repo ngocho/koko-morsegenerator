@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,8 +42,20 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
         
         // Diverse Initialisierungen
         this.init();
+        
+        // SetUp global preferences for speed of morsecode-output
+        SharedPreferences settings = getSharedPreferences("MORSE", MODE_WORLD_READABLE );
+        SharedPreferences.Editor editor = settings.edit();
+        // dit = "."    dah = "-"    see http://www.teachersparadise.com/ency/de/wikipedia/m/mo/morsecode.html
+        editor.putInt("dit", 200);
+        editor.putInt("dah", 600);
+        editor.commit();
+
     }
 
+    /**
+     * Handles all click-events (button start, settings, ...)
+     */
 	public void onClick(View view) {
 		Log.i("ClickEvent", "Button " + view.toString() + " clicked");
 
@@ -145,6 +158,9 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 		//TODO: check for all compatible output-options ???
 	}
 	
+	/**
+	 * Various initialization-work
+	 */
 	private void init()
 	{
         // Find all Screen-Components
@@ -174,6 +190,7 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 	}
 	
 	/**
+	 * Helper-Method
 	 * @param checkboxes
 	 * @return Returns true if one of the checkboxes is checked (selected)
 	 */
@@ -192,6 +209,7 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 	}
 	
 	/**
+	 * Helper-Method
 	 * Enables all checkboxes 
 	 */
 	private void enableAllCheckboxes()
@@ -204,6 +222,7 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 	}
 	
 	/**
+	 * Helper-Method
 	 * Disables all checkboxes, but not the one passed as a parameter
 	 * @param clickedCheckbox = Checkbox that should not be disabled 
 	 */
