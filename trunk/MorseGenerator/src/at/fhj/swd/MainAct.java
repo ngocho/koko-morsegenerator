@@ -76,6 +76,9 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 				
 				if (cb_light_flash.isChecked()) { // Light-Flash-Output
 					//TODO
+					// this might help:
+					// http://stackoverflow.com/questions/3878294/camera-parameters-flash-mode-torch-replacement-for-android-2-1
+					// http://mobilecoder.wordpress.com/2010/12/06/android-torch-led/
 					new AlertDialog.Builder(this).setMessage(
 					"Not implemented yet!")
 					.setNeutralButton("Schade...", null).show();
