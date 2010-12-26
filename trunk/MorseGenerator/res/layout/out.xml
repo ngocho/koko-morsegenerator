@@ -12,7 +12,7 @@ android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:background="#ff363636"
 android:layout_marginTop="10px"
-android:text="Sound output"
+android:text="Sound an vibration output"
 >
 </TextView>
 <TextView
@@ -28,6 +28,8 @@ android:id="@+id/tv_morsecode"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_marginTop="10px"
+android:textColor="#FF0000"
+android:textSize="50px"
 android:text="Morsecode"
 >
 </TextView>

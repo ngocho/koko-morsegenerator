@@ -1,6 +1,8 @@
 package at.fhj.swd;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
@@ -19,6 +21,8 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 	protected String morsecode;
 	protected SoundVibTask soundVibTask;
 	protected boolean vibOut, soundOut;
+	private int dit, dah; // dit = "."    dah = "-"    see http://www.teachersparadise.com/ency/de/wikipedia/m/mo/morsecode.html
+	private TextView tv_morsecode;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,11 +37,17 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
         vibOut = getIntent().getExtras().getBoolean("vibrationoutput");
         soundOut = getIntent().getExtras().getBoolean("soundoutput");
         
-        ((TextView) findViewById(R.id.tv_morsecode)).setText(morsecode);
-        ((TextView) findViewById(R.id.tv_inputtext)).setText(inputtext);
-
-        Log.i("SoundOutputAct","Acitivty created");
+	    // Restore preferences
+	    SharedPreferences settings = getSharedPreferences("MORSE", 0);
+	    dit =  settings.getInt("dit", 0);
+	    dah =  settings.getInt("dah", 0);
         
+        // Various initializations...
+	    tv_morsecode = ((TextView) findViewById(R.id.tv_morsecode));
+
+	    tv_morsecode.setText(""); 
+        ((TextView) findViewById(R.id.tv_inputtext)).setText(inputtext);
+        Log.i("SoundOutputAct","Acitivty created");
         ((Button) findViewById(R.id.bt_play)).setOnClickListener(this);
         ((Button) findViewById(R.id.bt_sound_back)).setOnClickListener(this);
         
@@ -79,58 +89,68 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 			
 			 for (int i=0; i<morsecode.length(); i++)
 		        {
+				 	// to update the current morsecode-char on the ui:
+				 	publishProgress(morsecode.substring(0,i+1));
+				 	
 				 	if (canceled) break;  // output was canceled -> exit loop
-		        	if (morsecode.substring(i,i+1).equals("·"))
+		        	if (morsecode.substring(i,i+1).equals("·"))  // dit
 		        	{
 		        		Log.i("play",".");
 		        		if (soundOut) 
-		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP , 200);
+		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP , dit);
 		        		if (vibOut) 
-		        			v.vibrate(200);
+		        			v.vibrate(dit);
 						try {
-							Thread.sleep(200);
+
+							Thread.sleep(dit); // play dit
+							Thread.sleep(dit); // abstand zwischen zwei symbolen ist ein dit lang
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						tg.stopTone();
+						
 		        	}
-		        	if (morsecode.substring(i,i+1).equals(" "))
-		        	{
-		        		Log.i("play","space");
-		        		try {
-							Thread.sleep(300);
-						} catch (InterruptedException e) {
-							// TODO Add better errorhandling here
-							e.printStackTrace();
-						}
-		        	}
-		        	if (morsecode.substring(i,i+1).equals("\\"))
-		        	{
-		        		Log.i("play","\\");
-		        		try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Add better errorhandling here
-							e.printStackTrace();
-						}
-		        	}
-		        	if (morsecode.substring(i,i+1).equals("-"))
+		        	
+		        	if (morsecode.substring(i,i+1).equals("-")) //dah
 		        	{
 		        		Log.i("play","-");
 		        		if (soundOut)
-		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP , 1000);
+		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP , dah);
 		        		if (vibOut)
-		        			v.vibrate(1000);
+		        			v.vibrate(dah);
 						try {
-							Thread.sleep(1000);
+							Thread.sleep(dah); // play dah
+							Thread.sleep(dit); // abstand zwischen zwei symbolen ist ein dit lang
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						tg.stopTone();
+						//tg.stopTone();
 		
 		        	}
+		        	
+		        	if (morsecode.substring(i,i+1).equals(" ")) // space zwischen zwei buchstaben
+		        	{
+		        		Log.i("play","space");
+		        		try {
+		        			Thread.sleep(dah); //zwischen Buchstaben in einem Wort wird ein dah (=3dit) Abstand gelassen 
+						} catch (InterruptedException e) {
+							// TODO Add better errorhandling here
+							e.printStackTrace();
+						}
+		        	}
+		        	
+		        	if (morsecode.substring(i,i+1).equals("\\")) // abstand zwischen zwei wörtern "\"
+		        	{
+		        		Log.i("play","\\");
+		        		try {
+		        			Thread.sleep(dit*7); //zwischen Wörtern wird eine Pause von sieben dits gemacht.
+						} catch (InterruptedException e) {
+							// TODO Add better errorhandling here
+							e.printStackTrace();
+						}
+		        	}
+
 		        	// Played all beeps: finished!
 		        	if (i==morsecode.length()-1) {     		        				
 		        		Log.i("mp","finished");
@@ -153,6 +173,13 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
     		Log.i("mp","canceled");
 		}
 		
+		@Override
+		protected void onProgressUpdate(String... values)  {
+			// to update the current morsecode-char on the ui
+			tv_morsecode.setText(values[0]);
+		}
+
+		
 	}
 
 	public void onCompletion(MediaPlayer mp) {
@@ -162,83 +189,11 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 }
 
 
-
-
-// ##### Another version with nearly the same result: ##### 
+// ##### Another version of playing sounds could be: ##### 
 
 /*
 MediaPlayer mp = MediaPlayer.create(getBaseContext(), R.raw.beep_mp3);
-mp.setOnCompletionListener(act); 
-for (int i=0; i<morsecode.length(); i++)
-{
-	if (morsecode.substring(i,i+1).equals("·"))
-	{
-		Log.i("play",".");
-		try {
-			mp.prepare();
-		} catch (IllegalStateException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		mp.start();
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			// TODO Add better errorhandling here
-			e.printStackTrace();
-		}
-		mp.stop();
-
-	}
-	if (morsecode.substring(i,i+1).equals(" "))
-	{
-		Log.i("play","space");
-		try {
-			Thread.sleep(300);
-		} catch (InterruptedException e) {
-			// TODO Add better errorhandling here
-			e.printStackTrace();
-		}
-	}
-	if (morsecode.substring(i,i+1).equals("\\"))
-	{
-		Log.i("play","\\");
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Add better errorhandling here
-			e.printStackTrace();
-		}
-	}
-	if (morsecode.substring(i,i+1).equals("-"))
-	{
-		Log.i("play","-");
-		try {
-			mp.prepare();
-		} catch (IllegalStateException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		mp.start();
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Add better errorhandling here
-			e.printStackTrace();
-		}
-		mp.stop();
-
-	}
-	// Played all beeps: finished!
-	if (i==morsecode.length()-1) {
-		mp.stop();	        		
-		mp.release();	        		        				
-		Log.i("mp","finished");
-	}
-}*/
+mp.prepare();
+mp.start();
+mp.stop();
+*/
