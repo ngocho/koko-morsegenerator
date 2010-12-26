@@ -1,5 +1,7 @@
 package at.fhj.swd;
 
+import java.util.Calendar;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -82,6 +84,9 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 		protected String doInBackground(String... params) {
 			Log.i("SoundTask", "Async task started...");
 
+			//DEBUG
+			long start = System.nanoTime();
+			
 			// ToneGenerator for Sound-Output
 			ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_MUSIC, 80);
 			// Get instance of Vibrator from current Context
@@ -95,15 +100,19 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 				 	if (canceled) break;  // output was canceled -> exit loop
 		        	if (morsecode.substring(i,i+1).equals("·"))  // dit
 		        	{
-		        		Log.i("play",".");
-		        		if (soundOut) 
-		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP , dit);
+		        		if (soundOut) {
+		        			Log.i("time", "before starttone " + String.valueOf(((System.nanoTime()-start))/1000000));
+		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
+		        		}
 		        		if (vibOut) 
 		        			v.vibrate(dit);
-						try {
-
+		        		
+						try {			
 							Thread.sleep(dit); // play dit
+							tg.stopTone();
+		        			Log.i("time", "after stoptone " + String.valueOf(((System.nanoTime()-start))/1000000));
 							Thread.sleep(dit); // abstand zwischen zwei symbolen ist ein dit lang
+
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -113,13 +122,13 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 		        	
 		        	if (morsecode.substring(i,i+1).equals("-")) //dah
 		        	{
-		        		Log.i("play","-");
 		        		if (soundOut)
-		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP , dah);
+		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
 		        		if (vibOut)
 		        			v.vibrate(dah);
 						try {
 							Thread.sleep(dah); // play dah
+							tg.stopTone();
 							Thread.sleep(dit); // abstand zwischen zwei symbolen ist ein dit lang
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
@@ -131,7 +140,6 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 		        	
 		        	if (morsecode.substring(i,i+1).equals(" ")) // space zwischen zwei buchstaben
 		        	{
-		        		Log.i("play","space");
 		        		try {
 		        			Thread.sleep(dah); //zwischen Buchstaben in einem Wort wird ein dah (=3dit) Abstand gelassen 
 						} catch (InterruptedException e) {
@@ -142,7 +150,6 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 		        	
 		        	if (morsecode.substring(i,i+1).equals("\\")) // abstand zwischen zwei wörtern "\"
 		        	{
-		        		Log.i("play","\\");
 		        		try {
 		        			Thread.sleep(dit*7); //zwischen Wörtern wird eine Pause von sieben dits gemacht.
 						} catch (InterruptedException e) {
