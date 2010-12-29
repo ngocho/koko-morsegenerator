@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:id="@+id/widget30"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+android:layout_marginLeft="10px"
+android:layout_marginRight="10px"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+<TextView
+android:id="@+id/tv_set_caption"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Settings"
+android:background="#363636"
+android:textStyle="bold"
+>
+</TextView>
+
+
+<LinearLayout
+android:id="@+id/widget241"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:gravity="center"
+android:layout_gravity="center_horizontal"
+>
+<TextView
+android:id="@+id/tv_set_speed_cap"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="5px"
+android:text="Duration of a dit: "
+>
+</TextView>
+<TextView
+android:id="@+id/tv_set_speed"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="5px"
+android:text="-"
+android:textStyle="bold"
+android:textColor="#FFD736"
+>
+</TextView>
+</LinearLayout>
+
+<SeekBar
+	android:id="@+id/sb_speed"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="10px"
+	android:layout_marginLeft="10px"
+></SeekBar>
+
+
+<LinearLayout
+android:id="@+id/widget36"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="10px"
+android:gravity="center"
+android:layout_gravity="center_horizontal"
+>
+<Button
+android:id="@+id/bt_set_save"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Save"
+android:textStyle="bold"
+>
+</Button>
+<Button
+android:id="@+id/bt_set_back"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Back"
+android:textStyle="bold"
+>
+</Button>
+</LinearLayout>
+</LinearLayout>
