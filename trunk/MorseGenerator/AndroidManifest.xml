@@ -18,6 +18,7 @@
 
 <activity android:name="OutputAct"></activity>
 <activity android:name="ScreenLightOutputAct"></activity>
+<activity android:name="SettingsAct"></activity>
 </application>
 
 

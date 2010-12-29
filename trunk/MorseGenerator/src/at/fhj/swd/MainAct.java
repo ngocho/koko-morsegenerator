@@ -43,14 +43,17 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
         // Diverse Initialisierungen
         this.init();
         
-        // SetUp global preferences for speed of morsecode-output
+        // SetUp global preferences (for speed of morsecode-output) 
         SharedPreferences settings = getSharedPreferences("MORSE", MODE_WORLD_READABLE );
-        SharedPreferences.Editor editor = settings.edit();
-        // dit = "."    dah = "-"    see http://www.teachersparadise.com/ency/de/wikipedia/m/mo/morsecode.html
-        editor.putInt("dit", 200);
-        editor.putInt("dah", 600);
-        editor.commit();
-
+        if (settings.getAll().size()==0) // set defaults only if no preferences exist
+        {        
+        	SharedPreferences.Editor editor = settings.edit();
+        	// dit = "."    dah = "-"    see http://www.teachersparadise.com/ency/de/wikipedia/m/mo/morsecode.html
+        	Log.w("Preferences", "No preferences found - setting default values");
+        	editor.putInt("dit", 200);
+        	editor.putInt("dah", 600);        	
+        	editor.commit();
+        }
     }
 
     /**
@@ -115,9 +118,8 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 		// Button "Settings" clicked
 		if (view == bt_settings) {
 			//TODO
-			new AlertDialog.Builder(this).setMessage(
-			"Not implemented yet!")
-			.setNeutralButton("Schade...", null).show();
+			Intent i = new Intent(this, SettingsAct.class);
+			startActivity(i);
 		}
 	}
 
