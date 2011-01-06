@@ -18,6 +18,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * Handles the vibration- and sound-output 
+ * @author Matthias Koinegg
+ */
 public class OutputAct extends Activity implements OnClickListener, OnCompletionListener{
 
 	protected String morsecode;
@@ -51,12 +55,10 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
         ((TextView) findViewById(R.id.tv_inputtext)).setText(inputtext);
         Log.i("SoundOutputAct","Acitivty created");
         ((Button) findViewById(R.id.bt_play)).setOnClickListener(this);
-        ((Button) findViewById(R.id.bt_sound_back)).setOnClickListener(this);
-        
+        ((Button) findViewById(R.id.bt_sound_back)).setOnClickListener(this);     
     }
 
-	public void onClick(View v) {
-     
+	public void onClick(View v) {     
 		// Play clicked
 		if (v.equals(findViewById(R.id.bt_play))) {
 			// Play-Button inaktiv setzen
@@ -186,15 +188,14 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 			tv_morsecode.setText(values[0]);
 		}
 
-		
 	}
 
 	public void onCompletion(MediaPlayer mp) {
 		// Playing finished - enable play-button again
-		((Button) findViewById(R.id.bt_play)).setEnabled(true);		
+		// Nur für die mediaplayer-variante relevant
+		// ((Button) findViewById(R.id.bt_play)).setEnabled(true);
 	}
 }
-
 
 // ##### Another version of playing sounds could be: ##### 
 

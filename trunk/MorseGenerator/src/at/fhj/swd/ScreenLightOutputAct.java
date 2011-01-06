@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 
+/**
+ * Handles the output on the display (changes from black to white)
+ * @author Matthias Koinegg
+ *
+ */
 public class ScreenLightOutputAct extends Activity {
 	
 	ScreenLightOutputView scrLightOut;

@@ -10,10 +10,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+/**
+ * Activity for application-wide settings (like output-speed)
+ * @author Matthias Koinegg
+ *
+ */
 public class SettingsAct extends Activity implements OnSeekBarChangeListener, OnClickListener{
 
 	SeekBar seekBarSpeed;
-
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +40,7 @@ public class SettingsAct extends Activity implements OnSeekBarChangeListener, On
         // Read current values from preferences
 	    SharedPreferences settings = getSharedPreferences("MORSE", 0);
 	    int dit =  settings.getInt("dit", 0); // default = 200 
-	    int dah =  settings.getInt("dah", 0);
+	    //int dah =  settings.getInt("dah", 0);
         
         //initialization for seekbar
         seekBarSpeed = (SeekBar) findViewById(R.id.sb_speed);

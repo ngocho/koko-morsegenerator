@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 
 /**
- * 
- * @author matthias
+ * Activity for sending the morsecode as SMS
+ * @author Matthias Koinegg
  *
  */
 public class SmsOutputAct extends Activity implements OnClickListener{

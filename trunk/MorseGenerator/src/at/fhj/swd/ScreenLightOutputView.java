@@ -7,17 +7,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 
 /**
  * Used in ScreenLightOuptutAct
  * Starts a thread which changes the screen between black and white - according to the morsecode
- * @author matthias
+ * @author Matthias Koinegg
  */
 public class ScreenLightOutputView extends View{
 
-	
-	
 	protected String morsecode, inputtext, currText, currMorse;
 	protected int blackOrWhite;
 	protected DisOutRunnable outRunnable;
@@ -65,7 +62,6 @@ public class ScreenLightOutputView extends View{
 		
 		// write the current morsecode
 		canvas.drawText(currMorse, 10, 175, paint);
-
 	}
 
 	protected class DisOutRunnable implements Runnable 
@@ -76,7 +72,7 @@ public class ScreenLightOutputView extends View{
 		public void run() {
 			Log.i("LightDisView-Thread","Thread started, in: " + inputtext);
 
-    		// Short wait before start 
+    		// Short pause before start 
     		try {
 				Thread.sleep(800);
 			} catch (InterruptedException e1) {
@@ -96,6 +92,7 @@ public class ScreenLightOutputView extends View{
 				if (morsecode.substring(i,i+1).equals("·")) // dit
 				{
 					blackOrWhite = Color.WHITE;
+					// after calling postInvalidat() onDraw(...) will be called (soon)
 					postInvalidate();
 					try {
 						Thread.sleep(dit);
@@ -142,8 +139,7 @@ public class ScreenLightOutputView extends View{
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-				}
-	        	
+				}	     
 			}
 		}
 	}
