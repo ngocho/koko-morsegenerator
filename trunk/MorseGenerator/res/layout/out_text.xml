@@ -12,6 +12,7 @@ android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:background="#363636"
 android:layout_marginTop="10px"
+android:textStyle="bold"
 android:text="Your text:"
 >
 </TextView>
@@ -29,6 +30,7 @@ android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:background="#363636"
 android:layout_marginTop="10px"
+android:textStyle="bold"
 android:text="Morsecode:"
 >
 </TextView>
@@ -37,7 +39,8 @@ android:id="@+id/tv_morsecode"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
 android:layout_marginTop="10px"
-android:textSize="17px"
+android:textColor="#FF0000"
+android:textSize="30px"
 android:text="Morsecode"
 >
 </TextView>
