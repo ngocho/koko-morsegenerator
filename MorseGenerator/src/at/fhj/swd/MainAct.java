@@ -93,10 +93,10 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 					startActivity(i);
 				}
 				if (cb_sms.isChecked()) { // SMS-Output
-					//TODO
-					new AlertDialog.Builder(this).setMessage(
-					"Not implemented yet!")
-					.setNeutralButton("Schade...", null).show();
+					Intent i = new Intent(this, SmsOutputAct.class);
+					i.putExtra("inputtext", et_input_text.getText().toString());
+					i.putExtra("morsecode", morsecode);
+					startActivity(i);
 				}
 				if (cb_sound.isChecked() || cb_vibration.isChecked()) { // Sound-Output or Vibration-Output
 					Intent i = new Intent(this, OutputAct.class);
@@ -157,6 +157,15 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 			disableOtherCheckboxes((CheckBox)buttonView); }
 		// When checkbox "Light (display)" is disabled, enable all other checkboxes
 		if (buttonView.equals(cb_ligth_dis) && !cb_ligth_dis.isChecked()) 	{
+			enableAllCheckboxes();
+		}
+		
+		// ################## SMS ##################
+		// When checkbox "SMS to ..." is enabled, disable all other checkboxes  
+		if (buttonView.equals(cb_sms) && cb_sms.isChecked())		{
+			disableOtherCheckboxes(cb_sms);
+		} // When checkbox "Text (display)" is disabled, enable all other checkboxes
+		if (buttonView.equals(cb_sms) && !cb_sms.isChecked()) 	{
 			enableAllCheckboxes();
 		}
 		

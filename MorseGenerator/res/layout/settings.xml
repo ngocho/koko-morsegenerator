@@ -10,7 +10,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 >
 <TextView
 android:id="@+id/tv_set_caption"
-android:layout_width="wrap_content"
+android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:text="Settings"
 android:background="#363636"
@@ -28,7 +28,7 @@ android:layout_gravity="center_horizontal"
 >
 <TextView
 android:id="@+id/tv_set_speed_cap"
-android:layout_width="wrap_content"
+android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:layout_marginTop="5px"
 android:text="Duration of a dit: "
