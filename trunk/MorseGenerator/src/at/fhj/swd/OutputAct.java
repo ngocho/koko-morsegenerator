@@ -90,7 +90,7 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 			long start = System.nanoTime();
 			
 			// ToneGenerator for Sound-Output
-			ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_MUSIC, 80);
+			ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
 			// Get instance of Vibrator from current Context
 			Vibrator v = (Vibrator) getSystemService(getBaseContext().VIBRATOR_SERVICE);
 			
@@ -104,14 +104,14 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 		        	{
 		        		if (soundOut) {
 		        			Log.i("time", "before starttone " + String.valueOf(((System.nanoTime()-start))/1000000));
-		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
+		        			tg.startTone(ToneGenerator.TONE_DTMF_0,dit);
 		        		}
 		        		if (vibOut) 
 		        			v.vibrate(dit);
 		        		
 						try {			
 							Thread.sleep(dit); // play dit
-							tg.stopTone();
+							//tg.stopTone();
 		        			Log.i("time", "after stoptone " + String.valueOf(((System.nanoTime()-start))/1000000));
 							Thread.sleep(dit); // abstand zwischen zwei symbolen ist ein dit lang
 
@@ -125,7 +125,7 @@ public class OutputAct extends Activity implements OnClickListener, OnCompletion
 		        	if (morsecode.substring(i,i+1).equals("-")) //dah
 		        	{
 		        		if (soundOut)
-		        			tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
+		        			tg.startTone(ToneGenerator.TONE_DTMF_0,dah);
 		        		if (vibOut)
 		        			v.vibrate(dah);
 						try {
