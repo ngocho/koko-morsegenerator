@@ -23,7 +23,7 @@ public class FlashOutputAct extends Activity implements OnClickListener{
 	protected Camera mCamera;
 	protected Camera.Parameters mParameters;
 	//private boolean mbTorchEnabled = false;
-	Thread outThread;
+	protected Thread outThread;
 	int dit, dah; // dit = "."    dah = "-"    see http://www.teachersparadise.com/ency/de/wikipedia/m/mo/morsecode.html
 
 	
@@ -67,8 +67,12 @@ public class FlashOutputAct extends Activity implements OnClickListener{
 			// http://stackoverflow.com/questions/3878294/camera-parameters-flash-mode-torch-replacement-for-android-2-1
 			// http://mobilecoder.wordpress.com/2010/12/06/android-torch-led/
 			
+				try
+				{
+					mCamera = Camera.open();
 				
-				mCamera = Camera.open();
+				
+				
 				
 				//... later in a click handler or other location
 				//Get camera parameters
@@ -95,11 +99,15 @@ public class FlashOutputAct extends Activity implements OnClickListener{
 //				    mbTorchEnabled = !mbTorchEnabled;
 				    
 				    //Start Thread to activate Camera
-				  	if (outThread== null)
-			    		outThread = new Thread( new FlashOutRunnable() );
+			    	outThread = new Thread( new FlashOutRunnable() );
 			    	if (!outThread.isAlive())
 			    		outThread.start();
+			    	
 			        
+				}
+				}catch (Exception e)
+				{
+					e.printStackTrace();
 				}
 				//mCamera.release();
 			
@@ -184,12 +192,13 @@ public class FlashOutputAct extends Activity implements OnClickListener{
 				}	     
 			}
 			
-			//Switch of flash at the end
+			//Switch off flash at the end
 			mParameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 		    mCamera.setParameters(mParameters);
 			
 			// free camera for other applications
 			mCamera.release();
+
 		}
 	}
 	
