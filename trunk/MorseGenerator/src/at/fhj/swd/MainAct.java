@@ -78,13 +78,10 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 				Log.i("Got following Text from Morsegenerator", morsecode);
 				
 				if (cb_light_flash.isChecked()) { // Light-Flash-Output
-					//TODO
-					// this might help:
-					// http://stackoverflow.com/questions/3878294/camera-parameters-flash-mode-torch-replacement-for-android-2-1
-					// http://mobilecoder.wordpress.com/2010/12/06/android-torch-led/
-					new AlertDialog.Builder(this).setMessage(
-					"Not implemented yet!")
-					.setNeutralButton("Schade...", null).show();
+					Intent i = new Intent(this, FlashOutputAct.class);
+					i.putExtra("inputtext", et_input_text.getText().toString());
+					i.putExtra("morsecode", morsecode);
+					startActivity(i);
 				}
 				if (cb_ligth_dis.isChecked()) { // Light-Display-Output
 					Intent i = new Intent(this, ScreenLightOutputAct.class);
@@ -169,7 +166,14 @@ public class MainAct extends Activity implements OnClickListener, OnCheckedChang
 			enableAllCheckboxes();
 		}
 		
-		//TODO: check for all compatible output-options ???
+		// ################## Flash ##################
+		// When checkbox "Flash..." is enabled, disable all other checkboxes  
+		if (buttonView.equals(cb_light_flash) && cb_light_flash.isChecked())		{
+			disableOtherCheckboxes(cb_light_flash);
+		} // When checkbox "Text (display)" is disabled, enable all other checkboxes
+		if (buttonView.equals(cb_light_flash) && !cb_light_flash.isChecked()) 	{
+			enableAllCheckboxes();
+		}
 	}
 	
 	/**

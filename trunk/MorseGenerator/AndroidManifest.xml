@@ -20,6 +20,7 @@
 <activity android:name="ScreenLightOutputAct"></activity>
 <activity android:name="SettingsAct"></activity>
 <activity android:name="SmsOutputAct"></activity>
+<activity android:name="FlashOutputAct"></activity>
 </application>
 
 
