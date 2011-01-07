@@ -9,6 +9,6 @@
     <string name="cb_light_flash">Light (flash)</string>
     <string name="cb_sound">Sound</string>
     <string name="cb_vibration">Vibration</string>
-    <string name="cb_sms">SMS to 112</string>
+    <string name="cb_sms">Send SMS</string>
 
 </resources>
