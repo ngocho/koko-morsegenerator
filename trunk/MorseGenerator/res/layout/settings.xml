@@ -17,7 +17,17 @@ android:background="#363636"
 android:textStyle="bold"
 >
 </TextView>
-
+<TextView
+android:id="@+id/tv_set_caption_speed"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="#ff363636"
+android:textColor="#FFD736"
+android:layout_marginTop="10px"
+android:textStyle="bold"
+android:text="Output speed"
+>
+</TextView>
 
 <LinearLayout
 android:id="@+id/widget241"
@@ -34,6 +44,7 @@ android:layout_marginTop="5px"
 android:text="Duration of a dit: "
 >
 </TextView>
+
 <TextView
 android:id="@+id/tv_set_speed"
 android:layout_width="wrap_content"
@@ -54,11 +65,43 @@ android:textColor="#FFD736"
         android:layout_marginLeft="10px"
 ></SeekBar>
 
+<TextView
+android:id="@+id/tv_set_caption_sms"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:background="#ff363636"
+android:textColor="#FFD736"
+android:layout_marginTop="10px"
+android:textStyle="bold"
+android:text="SMS"
+>
+</TextView>
 
-<LinearLayout android:layout_height="63px" android:gravity="center" android:layout_width="229px" android:layout_gravity="center_horizontal" android:id="@+id/widget47" android:layout_marginTop="10px"><TextView android:gravity="center" android:layout_height="20px" android:text="SMS Nummer:" android:layout_width="wrap_content" android:id="@+id/tv_set_sms_number" android:layout_gravity="center_horizontal"></TextView>
-<EditText android:gravity="center" android:layout_height="57px" android:text="112" android:textSize="12sp" android:id="@+id/et_sms" android:layout_width="127px" android:phoneNumber="true"></EditText>
-</LinearLayout><LinearLayout android:layout_height="63px" android:gravity="center" android:layout_width="229px" android:layout_gravity="center_horizontal" android:id="@+id/widget49"><CheckBox android:id="@+id/cb_GPS" android:gravity="center" android:layout_height="wrap_content" android:layout_width="171px" android:text="GPS postion in SMS"></CheckBox>
-</LinearLayout><LinearLayout
+<LinearLayout
+android:id="@+id/widget99"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_marginTop="10px"
+android:gravity="left"
+android:layout_gravity="left"
+>
+<TextView android:gravity="center" android:layout_height="wrap_content" android:text="SMS Nummer:" android:layout_width="wrap_content" android:id="@+id/tv_set_sms_number" android:layout_gravity="center_vertical"
+></TextView>
+<EditText android:gravity="center" android:layout_marginLeft="10px" android:layout_height="wrap_content" android:text="112" android:textSize="12sp" android:id="@+id/et_sms" android:layout_width="127px" android:phoneNumber="true"></EditText>
+</LinearLayout>
+
+
+<CheckBox
+android:id="@+id/cb_GPS"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Include GPS postion in SMS"
+android:gravity="center"
+android:layout_gravity="center_vertical"
+>
+</CheckBox>
+
+<LinearLayout
 android:id="@+id/widget36"
 android:layout_width="wrap_content"
 android:layout_height="wrap_content"
