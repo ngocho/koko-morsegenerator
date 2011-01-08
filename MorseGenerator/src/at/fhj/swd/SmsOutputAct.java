@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -26,6 +29,10 @@ import android.widget.Toast;
 public class SmsOutputAct extends Activity implements OnClickListener{
 
 	private String sms_number, inputtext;
+	private boolean sendGPS = true;
+	protected String GPSloc = "";
+	protected LocationManager mlocManager;
+	protected LocationListener mlocListener;
 	
     @Override    
     public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,7 @@ public class SmsOutputAct extends Activity implements OnClickListener{
 	 private void sendSMS(String phoneNumber, String message)
 	    {        
 	        String SENT = "SMS_SENT";
+	        
 	 
 	        PendingIntent sentPI = PendingIntent.getBroadcast(this, 0,
 	            new Intent(SENT), 0);
@@ -117,7 +125,77 @@ public class SmsOutputAct extends Activity implements OnClickListener{
 	        }, new IntentFilter(SENT));
 	 
 	        SmsManager sms = SmsManager.getDefault();
-	        sms.sendTextMessage(phoneNumber, null, message, sentPI, null);        
-	    } 
+	        if (sendGPS)
+	        {
+	        	this.getGPSPosition();
+	        	if (GPSloc.length()<=0) 
+	        	{
+	        		 Toast.makeText(getBaseContext(), "No GPS Signal found - try again", 
+                             Toast.LENGTH_SHORT).show();
+	        	}else
+	        	{
+	        		sms.sendTextMessage(phoneNumber, null, message+GPSloc, sentPI, null);
+	        	}
+	        	 mlocManager.removeUpdates(mlocListener);
+				 
+	        }
+	        else
+	        	sms.sendTextMessage(phoneNumber, null, message, sentPI, null);
+	        
+	    }
+	 
+	 private void getGPSPosition()
+	 {
+		 mlocManager  =  (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+			 mlocListener = new MyLocationListener();
+
+			 mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+			 
+			
+	 }
+	 
+	 /* Class My Location Listener */
+
+	 public class MyLocationListener implements LocationListener
+	 {
+
+		 public void onLocationChanged(Location loc)
+		 {
+		 loc.getLatitude();
+		 loc.getLongitude();
+		 String Text = "My current location is: " +
+		 "Latitud = " + loc.getLatitude() +
+		 "Longitud = " + loc.getLongitude();
+		 Toast.makeText( getApplicationContext(),
+		 Text,
+		 Toast.LENGTH_SHORT).show();
+		 GPSloc = " I am here: Latitud = " + loc.getLatitude() + " Longitud = " + loc.getLongitude();
+		 
+		 }
+	
+		 public void onProviderDisabled(String provider)
+		 {
+		 Toast.makeText( getApplicationContext(),
+		 "Gps Disabled",
+		 Toast.LENGTH_SHORT ).show();
+		 }
+	
+		 public void onProviderEnabled(String provider)
+		 {
+		 Toast.makeText( getApplicationContext(),
+		 "Gps Enabled",
+		 Toast.LENGTH_SHORT).show();
+		 }
+	
+		 public void onStatusChanged(String provider, int status, Bundle extras)
+		 {
+	
+		 }
+
+
+
+	 }/* End of Class MyLocationListener */
+	 
 }
 
