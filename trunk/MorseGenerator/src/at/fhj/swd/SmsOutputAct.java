@@ -57,7 +57,8 @@ public class SmsOutputAct extends Activity implements OnClickListener{
         
         SharedPreferences settings =this.getSharedPreferences("MORSE", 0);
         sms_number = settings.getString("sms", "112");
-;        
+        sendGPS = settings.getBoolean("useGPS", false);
+               
     }
 
 	public void onClick(View v) {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -87,6 +88,8 @@ public class SettingsAct extends Activity implements OnSeekBarChangeListener, On
         	editor.putInt("dah", dit*3); //ein dah ist üblicherweise dreimal so lang wie ein dit,
         	EditText et_sms = (EditText) findViewById(R.id.et_sms);
         	editor.putString("sms", et_sms.getText().toString());
+        	CheckBox cb_gps = (CheckBox) findViewById(R.id.cb_GPS);
+        	editor.putBoolean("useGPS", cb_gps.isChecked());
         	if (editor.commit()) {
         		Toast.makeText(this,"Successfully saved!", Toast.LENGTH_SHORT).show();
         	}
