@@ -1,10 +1,7 @@
 package at.fhj.swd;
 
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;

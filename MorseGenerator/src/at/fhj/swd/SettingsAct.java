@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 /**
@@ -29,7 +30,7 @@ public class SettingsAct extends Activity implements OnSeekBarChangeListener, On
         // Provide a button to get back to the main activity
         Button bt_back = (Button) findViewById(R.id.bt_set_back);
         bt_back.setOnClickListener(new View.OnClickListener() {
-           public void onClick(View arg0) {
+           public void onClick(View arg0) {        	   
         	   setResult(RESULT_OK);
         	   finish();
            }
@@ -86,7 +87,12 @@ public class SettingsAct extends Activity implements OnSeekBarChangeListener, On
         	editor.putInt("dah", dit*3); //ein dah ist üblicherweise dreimal so lang wie ein dit,
         	EditText et_sms = (EditText) findViewById(R.id.et_sms);
         	editor.putString("sms", et_sms.getText().toString());
-        	editor.commit();
+        	if (editor.commit()) {
+        		Toast.makeText(this,"Successfully saved!", Toast.LENGTH_SHORT).show();
+        	}
+        	else  	{
+        		Toast.makeText(this,"A problem occured while saving!", Toast.LENGTH_LONG).show();
+        	}
 		}		
 	}	
 }
