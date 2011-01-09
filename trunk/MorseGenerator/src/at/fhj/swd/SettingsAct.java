@@ -59,6 +59,8 @@ public class SettingsAct extends Activity implements OnSeekBarChangeListener, On
         //initialization of sms number
         ((EditText) findViewById(R.id.et_sms)).setText(settings.getString("sms", "112"));
         
+        //initialization of GPS enabled
+        ((CheckBox) findViewById(R.id.cb_GPS)).setChecked(settings.getBoolean("useGPS", false));
     }
 
 	public void onProgressChanged(SeekBar seekBar, int progress,
