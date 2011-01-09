@@ -202,7 +202,14 @@ public class SmsOutputAct extends Activity implements OnClickListener{
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		mlocManager.removeUpdates(mlocListener);
+		try
+		{
+			mlocManager.removeUpdates(mlocListener);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	 
 }
