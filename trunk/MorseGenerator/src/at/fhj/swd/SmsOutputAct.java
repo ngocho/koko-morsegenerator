@@ -137,7 +137,7 @@ public class SmsOutputAct extends Activity implements OnClickListener{
 	        	{
 	        		sms.sendTextMessage(phoneNumber, null, message+GPSloc, sentPI, null);
 	        	}
-	        	 mlocManager.removeUpdates(mlocListener);
+	        	// mlocManager.removeUpdates(mlocListener);
 				 
 	        }
 	        else
@@ -197,6 +197,13 @@ public class SmsOutputAct extends Activity implements OnClickListener{
 
 
 	 }/* End of Class MyLocationListener */
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		mlocManager.removeUpdates(mlocListener);
+	}
 	 
 }
 
