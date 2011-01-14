@@ -216,18 +216,4 @@ public class FlashOutputAct extends Activity implements OnClickListener{
 		}
 	}
 	
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		try
-		{
-			mCamera.release();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
 }
