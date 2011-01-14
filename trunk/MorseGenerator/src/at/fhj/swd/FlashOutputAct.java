@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FlashOutputAct extends Activity implements OnClickListener{
 
@@ -25,7 +26,7 @@ public class FlashOutputAct extends Activity implements OnClickListener{
 	//private boolean mbTorchEnabled = false;
 	protected Thread outThread;
 	int dit, dah; // dit = "."    dah = "-"    see http://www.teachersparadise.com/ency/de/wikipedia/m/mo/morsecode.html
-
+	boolean notavailable = false;
 	
     @Override    
     public void onCreate(Bundle savedInstanceState) {
@@ -104,9 +105,22 @@ public class FlashOutputAct extends Activity implements OnClickListener{
 			    		outThread.start();
 			    	
 			        
+				}else
+				{
+					notavailable = true;
+					Toast.makeText( getApplicationContext(),
+							 "Flash light not supported",
+							 Toast.LENGTH_SHORT).show();
 				}
+					 
 				}catch (Exception e)
 				{
+					if (notavailable)
+						{
+							Toast.makeText( getApplicationContext(),
+									"Not available on this device",
+							 Toast.LENGTH_SHORT).show();
+						}
 					e.printStackTrace();
 				}
 				//mCamera.release();
@@ -199,6 +213,20 @@ public class FlashOutputAct extends Activity implements OnClickListener{
 			// free camera for other applications
 			mCamera.release();
 
+		}
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		try
+		{
+			mCamera.release();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 	
